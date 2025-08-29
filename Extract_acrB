@@ -2,4 +2,28 @@
 # Make sure to install biopython 
 # GenBank file is found in the Example_Data folder and taken from NCBI accession CP009072
 
-pip install biopython
+# If you dont already have biopython then install using pip install biopython
+
+from Bio import SeqIO
+import os
+
+def extract_protein_by_product(genbank_file, product_name, output_fasta):
+    with open(output_fasta, "w") as out_f:
+        for record in SeqIO.parse(genbank_file, "genbank"):
+            for feature in record.features:
+                if feature.type == "CDS":
+                    if 'product' in feature.qualifiers:
+                        if product_name.lower() in feature.qualifiers['product'][0].lower():
+                            protein_seq = feature.qualifiers.get('translation', [''])[0]
+                            gene_id = feature.qualifiers.get('locus_tag', ['unknown'])[0]
+                            start = feature.location.start + 1
+                            end = feature.location.end
+                            strand = "+" if feature.location.strand == 1 else "-"
+                            header = f">{record.id}_{gene_id}_{start}_{end}_{strand} [Protein: {product_name}]"
+                            out_f.write(f"{header}\n{protein_seq}\n")
+                            print(f"✔ Extracted: {header}")
+
+for file in os.listdir("."):
+    if file.endswith(".gbk"):
+        strain_name = file.replace(".gbk", "")
+        extract_protein_by_product(file, "acrB", f"{strain_name}_acrB_proteins.fasta")
