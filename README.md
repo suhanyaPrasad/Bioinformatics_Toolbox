@@ -7,6 +7,7 @@ Useful resources for learning how to use Python in Bioinformatic work are given 
 
 
 Reference:
- 
+Books 
 Python Programming for Biology: Bioinformatics and Beyond.Stevens, T. J., & Boucher, W. (2015). Cambridge University Press
+Links
 https://www.coursera.org/learn/bioinformatics
