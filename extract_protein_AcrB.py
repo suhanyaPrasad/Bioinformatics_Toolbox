@@ -1,3 +1,11 @@
+# To extract protein sequence from GenBank file 
+# Make sure to install biopython 
+# GenBank file is found in the Example_Data folder and taken from NCBI accession CP009072
+
+# If you dont already have biopython then install using pip install biopython
+
+
+
 from Bio import SeqIO
 import os
 
